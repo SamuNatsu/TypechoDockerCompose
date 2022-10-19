@@ -1,0 +1,30 @@
+version: "2"
+
+services:
+  typecho:
+    image: joyqi/typecho:1.2.0-php7.4-apache
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./app:/app
+    environment:
+      - TYPECHO_SITE_URL=http://localhost
+    networks:
+      - typecho
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql:/var/lib/mysql
+    env_file:
+      - mysql.env
+    networks:
+      - typecho
+
+networks:
+  typecho:
+    driver: bridge
+
